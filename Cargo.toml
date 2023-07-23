@@ -1,8 +1,15 @@
 [package]
-name = "govee"
-authors = ["Maciej Gierada @mgierada"]
-version = "0.1.0"
+name = "govee-api"
+authors = ["Maciej Gierada"]
+version = "0.0.1"
 edition = "2021"
+license = "MIT OR Apache-2.0"
+keywords = ["govee", "api", "wrapper", "client", "sdk"]
+categories = ["command-line-utilities"]
+description = "A blazingly fast thin wrapper around the public Govee API written in Rust"
+homepage = "https://github.com/mgierada/govee"
+repository = "https://github.com/mgierada/govee"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
