@@ -1,2 +1,2 @@
 # govee
-A thin wrapper around public Govee API written in Rust
+A blazingly fast thin wrapper around the public Govee API written in Rust 🚀.
