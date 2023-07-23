@@ -2,6 +2,8 @@ use reqwest::{Client, Url};
 use serde::{de, Deserialize, Serialize};
 use serde_json::json;
 
+pub mod tests;
+
 // ------------------------
 // Structs for the Govee API
 // ------------------------
