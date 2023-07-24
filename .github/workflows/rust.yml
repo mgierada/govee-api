@@ -31,10 +31,6 @@ jobs:
       - name: rust-grcov
         uses: actions-rs/grcov@v0.1.5
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3.1.0
-        with:
-          verbose: true
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-        # env:
-        #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
