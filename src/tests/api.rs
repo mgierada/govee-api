@@ -93,14 +93,11 @@ mod tests {
                         "device": "device_id",
                         "model": "model_id",
                         "properties": {
-                            "color": {
-                                "r": 255,
-                                "g": 255,
-                                "b": 255
-                            },
                             "brightness": 100,
                             "powerState": "on",
-                            "colorTem": 9001
+                            "colorTem": 9001,
+                            "colorTemInKelvin": 2000,
+                            "online": true
                         }
                     }
                 }"#,
