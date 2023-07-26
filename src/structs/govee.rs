@@ -1,4 +1,5 @@
-use serde::{de,Deserialize, Serialize};
+use crate::utils::request::deserialize_bool;
+use serde::{Deserialize, Serialize};
 
 // ------------------------
 // Structs for the Govee API
@@ -84,24 +85,15 @@ pub struct ColorTemRange {
     pub max: i16,
 }
 
+#[derive(Serialize)]
+pub struct PayloadBody {
+    pub device: String,
+    pub model: String,
+    pub cmd: GoveeCommand,
+}
 
-// ------------------------
-// Handling Govee Issues
-// ------------------------
-//
-
-fn deserialize_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
-where
-    D: de::Deserializer<'de>,
-{
-    // If the incoming value is a string 'true' or 'false', return true or false
-    // If the incoming value is a boolean, return the boolean
-    match serde::Deserialize::deserialize(deserializer)? {
-        serde_json::Value::Bool(b) => Ok(b),
-        serde_json::Value::String(s) if s == "true" => Ok(true),
-        serde_json::Value::String(s) if s == "false" => Ok(false),
-        _ => Err(serde::de::Error::custom(
-            "Expected a boolean or 'true'/'false' string",
-        )),
-    }
+#[derive(Serialize, Deserialize)]
+pub struct GoveeCommand {
+    pub name: String,
+    pub value: String,
 }

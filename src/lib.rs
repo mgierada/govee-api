@@ -1,26 +1,10 @@
 use reqwest::{Client, Url};
-use serde::{de, Deserialize, Serialize};
 use serde_json::json;
-use structs::govee::{ApiResponseGoveeDeviceStatus, ApiResponseGoveeAllDevices};
+use structs::govee::{ApiResponseGoveeAllDevices, ApiResponseGoveeDeviceStatus, PayloadBody};
 
-pub mod tests;
 pub mod structs;
-
-
-#[derive(Serialize)]
-pub struct PayloadBody {
-    pub device: String,
-    pub model: String,
-    pub cmd: GoveeCommand,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct GoveeCommand {
-    pub name: String,
-    pub value: String,
-}
-
-
+pub mod tests;
+pub mod utils;
 
 // ------------------------
 // Methods for the Govee API
