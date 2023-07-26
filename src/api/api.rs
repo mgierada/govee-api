@@ -1,11 +1,9 @@
 use reqwest::{Client, Url};
 use serde_json::json;
-use structs::govee::{ApiResponseGoveeAllDevices, ApiResponseGoveeDeviceStatus, PayloadBody};
 
-pub mod structs;
-pub mod tests;
-pub mod utils;
-pub mod api;
+use crate::structs::govee::{
+    ApiResponseGoveeAllDevices, ApiResponseGoveeDeviceStatus, PayloadBody,
+};
 
 // ------------------------
 // Methods for the Govee API
