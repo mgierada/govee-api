@@ -89,17 +89,15 @@ mod tests {
                 r#"{
                     "code": 200,
                     "message": "Success",
-                    "device": {
-                        "device": "device_id",
-                        "model": "model_id",
-                        "properties": {
-                            "brightness": 100,
-                            "powerState": "on",
-                            "colorTem": 9001,
-                            "colorTemInKelvin": 2000,
-                            "online": true
+                    "device": "device_id",
+                    "model": "model_id",
+                    "properties": {
+                        "brightness": 100,
+                        "powerState": "on",
+                        "colorTem": 9001,
+                        "colorTemInKelvin": 2000,
+                        "online": true
                         }
-                    }
                 }"#,
             )
             .create();
