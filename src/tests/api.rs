@@ -91,13 +91,23 @@ mod tests {
                     "message": "Success",
                     "device": "device_id",
                     "model": "model_id",
-                    "properties": {
-                        "brightness": 100,
-                        "powerState": "on",
-                        "colorTem": 9001,
-                        "colorTemInKelvin": 2000,
-                        "online": true
+                    "properties": [
+                        {
+                            "online": true
+                        },
+                        {
+                            "powerState": "on"
+                        },
+                        {
+                            "brightness": 100
+                        },
+                        {
+                            "colorTemInKelvin": 2000
+                        },
+                        {
+                            "colorTem": 2000
                         }
+                    ]
                 }"#,
             )
             .create();
