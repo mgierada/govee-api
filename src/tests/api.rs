@@ -2,7 +2,10 @@
 mod tests {
     use mockito;
 
-    use crate::{get_all_devices, get_device_status, sent_put_request, GoveeCommand, PayloadBody};
+    use crate::{
+        get_all_devices, get_device_status, sent_put_request,
+        structs::govee::{GoveeCommand, PayloadBody},
+    };
 
     #[tokio::test]
     async fn test_sent_put_request() {
