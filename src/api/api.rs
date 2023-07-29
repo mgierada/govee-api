@@ -43,7 +43,7 @@ pub async fn get_devices(
     response_json
 }
 
-pub async fn get_device_status(
+pub async fn get_device_state(
     govee_root_url: &str,
     govee_api_key: &str,
     device: &str,
@@ -59,7 +59,7 @@ pub async fn get_device_status(
         .send()
         .await
         .unwrap()
-        .json::<ApiResponseGoveeDeviceStatus>();
-    let response_json: ApiResponseGoveeDeviceStatus = response.await.unwrap();
+        .json::<ApiResponseGoveeDeviceState>();
+    let response_json: ApiResponseGoveeDeviceState= response.await.unwrap();
     response_json
 }
