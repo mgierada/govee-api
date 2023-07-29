@@ -39,7 +39,7 @@ pub async fn get_device_state(
     govee_api_key: &str,
     device: &str,
     model: &str,
-) -> ApiResponseGoveeDeviceState{
+) -> ApiResponseGoveeDeviceState {
     let client = Client::new();
     let params = [("device", device), ("model", model)];
     let endpoint = format!("{}/v1/devices/state", govee_root_url);
