@@ -9,7 +9,7 @@ use crate::structs::govee::{
 // Methods for the Govee API
 // ------------------------
 
-pub async fn sent_put_request(
+pub async fn control_device(
     govee_root_url: &str,
     govee_api_key: &str,
     payload: PayloadBody,
