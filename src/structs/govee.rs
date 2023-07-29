@@ -52,6 +52,13 @@ pub struct ApiResponseGoveeDevices {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+pub struct ApiResponseGoveeAppliances {
+    code: i16,
+    message: String,
+    pub data: Option<GoveeData>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
 pub struct GoveeData {
     pub devices: Vec<GoveeDevice>,
 }

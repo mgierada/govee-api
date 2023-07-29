@@ -1,7 +1,7 @@
 use reqwest::{Client, Url};
 use serde_json::json;
 
-use crate::structs::govee::{ApiResponseGoveeDeviceState, ApiResponseGoveeDevices, PayloadBody};
+use crate::structs::govee::{ApiResponseGoveeDeviceState, ApiResponseGoveeDevices, PayloadBody, ApiResponseGoveeAppliances};
 
 // ------------------------
 // Methods for the Govee API
@@ -11,6 +11,19 @@ pub async fn control_device(govee_root_url: &str, govee_api_key: &str, payload: 
     let client = Client::new();
     let payload_json = json!(payload);
     let endpoint = format!("{}/v1/devices/control", govee_root_url);
+    let _response = client
+        .put(endpoint)
+        .header("Govee-API-Key", govee_api_key)
+        .json(&payload_json)
+        .send()
+        .await
+        .unwrap();
+}
+
+pub async fn control_appliance(govee_root_url: &str, govee_api_key: &str, payload: PayloadBody) -> () {
+    let client = Client::new();
+    let payload_json = json!(payload);
+    let endpoint = format!("{}/v1/appliance/devices/control", govee_root_url);
     let _response = client
         .put(endpoint)
         .header("Govee-API-Key", govee_api_key)
@@ -31,6 +44,20 @@ pub async fn get_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRespon
         .unwrap()
         .json::<ApiResponseGoveeDevices>();
     let response_json: ApiResponseGoveeDevices = response.await.unwrap();
+    response_json
+}
+
+pub async fn get_appliances(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAppliances{
+    let client = Client::new();
+    let endpoint = format!("{}/v1/appliance/devices", govee_root_url);
+    let response = client
+        .get(endpoint)
+        .header("Govee-API-Key", govee_api_key)
+        .send()
+        .await
+        .unwrap()
+        .json::<ApiResponseGoveeAppliances >();
+    let response_json: ApiResponseGoveeAppliances = response.await.unwrap();
     response_json
 }
 
