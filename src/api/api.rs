@@ -2,7 +2,7 @@ use reqwest::{Client, Url};
 use serde_json::json;
 
 use crate::structs::govee::{
-    ApiResponseGoveeAllDevices, ApiResponseGoveeDeviceStatus, PayloadBody,
+    ApiResponseGoveeDevices, ApiResponseGoveeDeviceStatus, PayloadBody,
 };
 
 // ------------------------
@@ -26,10 +26,10 @@ pub async fn sent_put_request(
         .unwrap();
 }
 
-pub async fn get_all_devices(
+pub async fn get_devices(
     govee_root_url: &str,
     govee_api_key: &str,
-) -> ApiResponseGoveeAllDevices {
+) -> ApiResponseGoveeDevices {
     let client = Client::new();
     let endpoint = format!("{}/v1/devices", govee_root_url);
     let response = client
@@ -38,8 +38,8 @@ pub async fn get_all_devices(
         .send()
         .await
         .unwrap()
-        .json::<ApiResponseGoveeAllDevices>();
-    let response_json: ApiResponseGoveeAllDevices = response.await.unwrap();
+        .json::<ApiResponseGoveeDevices>();
+    let response_json: ApiResponseGoveeDevices= response.await.unwrap();
     response_json
 }
 

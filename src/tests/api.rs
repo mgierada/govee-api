@@ -3,8 +3,7 @@ mod tests {
     use mockito;
 
     use crate::{
-        get_all_devices, get_device_status, sent_put_request,
-        structs::govee::{GoveeCommand, PayloadBody},
+        structs::govee::{GoveeCommand, PayloadBody}, api::api::{sent_put_request, get_devices, get_device_status},
     };
 
     #[tokio::test]
@@ -69,7 +68,7 @@ mod tests {
                 }"#,
             )
             .create();
-        get_all_devices(&govee_root_url, &govee_api_key).await;
+        get_devices(&govee_root_url, &govee_api_key).await;
         mock_endpoint.assert();
     }
 
