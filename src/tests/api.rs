@@ -3,7 +3,7 @@ mod tests {
     use mockito;
 
     use crate::{
-        api::api::{control_device, get_device_state, get_devices, control_appliance},
+        api::api::{control_device, get_device_state, get_devices, control_appliance, get_appliances},
         structs::govee::{GoveeCommand, PayloadBody},
     };
 
@@ -93,6 +93,61 @@ mod tests {
             )
             .create();
         get_devices(&govee_root_url, &govee_api_key).await;
+        mock_endpoint.assert();
+    }
+    
+    #[tokio::test]
+    async fn test_get_appliances() {
+        let mut server = mockito::Server::new();
+        let govee_root_url = server.url();
+        let govee_api_key = "1234567890";
+        let mock_endpoint = server
+            .mock("get", "/v1/appliance/devices")
+            .match_header("govee-api-key", govee_api_key)
+            .with_status(200)
+            .with_body(
+                r#"{
+                    "code": 200,
+                    "message": "Success",
+                    "devices": [
+                        {
+                            "device": "appliance_id",
+                            "model": "model_id",
+                            "deviceName": "device_name",
+                            "controllable": true,
+                            "retrievable": true,
+                            "supportCmds": [
+                                "turn",
+                                "mode"
+                            ],
+                            "properties": {
+                                "mode": {
+                                    "options": [
+                                        {
+                                            "name": "Low",
+                                            "value": 1
+                                        },
+                                        {
+                                            "name": "Medium",
+                                            "value": 2
+                                        },
+                                        {
+                                            "name": "High",
+                                            "value": 3
+                                        },
+                                                                                {
+                                            "name": "Sleep",
+                                            "value": 4
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }"#,
+            )
+            .create();
+        get_appliances(&govee_root_url, &govee_api_key).await;
         mock_endpoint.assert();
     }
 
