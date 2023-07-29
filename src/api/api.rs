@@ -1,7 +1,7 @@
 use reqwest::{Client, Url};
 use serde_json::json;
 
-use crate::structs::govee::{ApiResponseGoveeDeviceState, ApiResponseGoveeDevices, PayloadBody};
+use crate::structs::govee::{ApiResponseGoveeDeviceState, ApiResponseGoveeDevices, PayloadBody, ApiResponseGoveeAppliances};
 
 // ------------------------
 // Methods for the Govee API
@@ -34,7 +34,7 @@ pub async fn get_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRespon
     response_json
 }
 
-pub async fn get_appliances(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAppliances {
+pub async fn get_appliances(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAppliances{
     let client = Client::new();
     let endpoint = format!("{}/v1/appliance/devices", govee_root_url);
     let response = client
