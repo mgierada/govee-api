@@ -3,7 +3,8 @@ mod tests {
     use mockito;
 
     use crate::{
-        structs::govee::{GoveeCommand, PayloadBody}, api::api::{sent_put_request, get_devices, get_device_status},
+        api::api::{get_device_status, get_devices, sent_put_request},
+        structs::govee::{GoveeCommand, PayloadBody},
     };
 
     #[tokio::test]
