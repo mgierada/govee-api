@@ -34,6 +34,20 @@ pub async fn get_devices(govee_root_url: &str, govee_api_key: &str) -> ApiRespon
     response_json
 }
 
+pub async fn get_appliances(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAppliances {
+    let client = Client::new();
+    let endpoint = format!("{}/v1/appliance/devices", govee_root_url);
+    let response = client
+        .get(endpoint)
+        .header("Govee-API-Key", govee_api_key)
+        .send()
+        .await
+        .unwrap()
+        .json::<ApiResponseGoveeAppliances >();
+    let response_json: ApiResponseGoveeAppliances = response.await.unwrap();
+    response_json
+}
+
 pub async fn get_device_state(
     govee_root_url: &str,
     govee_api_key: &str,
