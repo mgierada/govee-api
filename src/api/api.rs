@@ -20,6 +20,19 @@ pub async fn control_device(govee_root_url: &str, govee_api_key: &str, payload: 
         .unwrap();
 }
 
+pub async fn control_appliance(govee_root_url: &str, govee_api_key: &str, payload: PayloadBody) -> () {
+    let client = Client::new();
+    let payload_json = json!(payload);
+    let endpoint = format!("{}/v1/appliance/devices/control", govee_root_url);
+    let _response = client
+        .put(endpoint)
+        .header("Govee-API-Key", govee_api_key)
+        .json(&payload_json)
+        .send()
+        .await
+        .unwrap();
+}
+
 pub async fn get_devices(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeDevices {
     let client = Client::new();
     let endpoint = format!("{}/v1/devices", govee_root_url);
