@@ -3,7 +3,7 @@ mod tests {
     use mockito;
 
     use crate::{
-        api::api::{control_device, get_device_state, get_devices},
+        api::api::{control_device, get_device_state, get_devices, control_appliance},
         structs::govee::{GoveeCommand, PayloadBody},
     };
 
@@ -27,6 +27,29 @@ mod tests {
             cmd: command,
         };
         control_device(&govee_root_url, &govee_api_key, payload).await;
+        mock_endpoint.assert();
+    }
+    
+    #[tokio::test]
+    async fn test_control_appliance() {
+        let mut server = mockito::Server::new();
+        let govee_root_url = server.url();
+        let govee_api_key = "1234567890";
+        let mock_endpoint = server
+            .mock("put", "/v1/appliance/devices/control")
+            .match_header("govee-api-key", govee_api_key)
+            .with_status(200)
+            .create();
+        let command = GoveeCommand {
+            name: "mode".to_string(),
+            value: "16".to_string(),
+        };
+        let payload = PayloadBody {
+            device: "device_id".to_string(),
+            model: "model_id".to_string(),
+            cmd: command,
+        };
+        control_appliance(&govee_root_url, &govee_api_key, payload).await;
         mock_endpoint.assert();
     }
 
