@@ -5,6 +5,7 @@ pub mod utils;
 
 pub const GOVEE_ROOT_URL: &str = "https://developer-api.govee.com";
 
+#[derive(Debug)]
 pub struct GoveeClient {
     pub govee_root_url: String,
     pub govee_api_key: String,
