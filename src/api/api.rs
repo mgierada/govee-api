@@ -1,83 +1,93 @@
 use reqwest::{Client, Url};
 use serde_json::json;
 
-use crate::structs::govee::{ApiResponseGoveeDeviceState, ApiResponseGoveeDevices, PayloadBody, ApiResponseGoveeAppliances};
+use crate::{
+    structs::govee::{
+        ApiResponseGoveeAppliances, ApiResponseGoveeDeviceState, ApiResponseGoveeDevices,
+        PayloadBody,
+    },
+    GoveeClient, GOVEE_ROOT_URL,
+};
 
 // ------------------------
 // Methods for the Govee API
 // ------------------------
-
-pub async fn control_device(govee_root_url: &str, govee_api_key: &str, payload: PayloadBody) -> () {
-    let client = Client::new();
-    let payload_json = json!(payload);
-    let endpoint = format!("{}/v1/devices/control", govee_root_url);
-    let _response = client
-        .put(endpoint)
-        .header("Govee-API-Key", govee_api_key)
-        .json(&payload_json)
-        .send()
-        .await
-        .unwrap();
+impl GoveeClient {
+    pub async fn control_device(&self, payload: PayloadBody) -> () {
+        let client = Client::new();
+        let payload_json = json!(payload);
+        let endpoint = format!("{}/v1/devices/control", GOVEE_ROOT_URL);
+        let _response = client
+            .put(endpoint)
+            .header("Govee-API-Key", &self.govee_api_key)
+            .json(&payload_json)
+            .send()
+            .await
+            .unwrap();
+    }
 }
 
-pub async fn control_appliance(govee_root_url: &str, govee_api_key: &str, payload: PayloadBody) -> () {
-    let client = Client::new();
-    let payload_json = json!(payload);
-    let endpoint = format!("{}/v1/appliance/devices/control", govee_root_url);
-    let _response = client
-        .put(endpoint)
-        .header("Govee-API-Key", govee_api_key)
-        .json(&payload_json)
-        .send()
-        .await
-        .unwrap();
+impl GoveeClient {
+    pub async fn control_appliance(&self, payload: PayloadBody) -> () {
+        let client = Client::new();
+        let payload_json = json!(payload);
+        let endpoint = format!("{}/v1/appliance/devices/control", GOVEE_ROOT_URL);
+        let _response = client
+            .put(endpoint)
+            .header("Govee-API-Key", &self.govee_api_key)
+            .json(&payload_json)
+            .send()
+            .await
+            .unwrap();
+    }
 }
 
-pub async fn get_devices(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeDevices {
-    let client = Client::new();
-    let endpoint = format!("{}/v1/devices", govee_root_url);
-    let response = client
-        .get(endpoint)
-        .header("Govee-API-Key", govee_api_key)
-        .send()
-        .await
-        .unwrap()
-        .json::<ApiResponseGoveeDevices>();
-    let response_json: ApiResponseGoveeDevices = response.await.unwrap();
-    response_json
+impl GoveeClient {
+    pub async fn get_devices(&self) -> ApiResponseGoveeDevices {
+        let client = Client::new();
+        let endpoint = format!("{}/v1/devices", GOVEE_ROOT_URL);
+        let response = client
+            .get(endpoint)
+            .header("Govee-API-Key", &self.govee_api_key)
+            .send()
+            .await
+            .unwrap()
+            .json::<ApiResponseGoveeDevices>();
+        let response_json: ApiResponseGoveeDevices = response.await.unwrap();
+        response_json
+    }
 }
 
-pub async fn get_appliances(govee_root_url: &str, govee_api_key: &str) -> ApiResponseGoveeAppliances{
-    let client = Client::new();
-    let endpoint = format!("{}/v1/appliance/devices", govee_root_url);
-    let response = client
-        .get(endpoint)
-        .header("Govee-API-Key", govee_api_key)
-        .send()
-        .await
-        .unwrap()
-        .json::<ApiResponseGoveeAppliances >();
-    let response_json: ApiResponseGoveeAppliances = response.await.unwrap();
-    response_json
+impl GoveeClient {
+    pub async fn get_appliances(&self) -> ApiResponseGoveeAppliances {
+        let client = Client::new();
+        let endpoint = format!("{}/v1/appliance/devices", GOVEE_ROOT_URL);
+        let response = client
+            .get(endpoint)
+            .header("Govee-API-Key", &self.govee_api_key)
+            .send()
+            .await
+            .unwrap()
+            .json::<ApiResponseGoveeAppliances>();
+        let response_json: ApiResponseGoveeAppliances = response.await.unwrap();
+        response_json
+    }
 }
 
-pub async fn get_device_state(
-    govee_root_url: &str,
-    govee_api_key: &str,
-    device: &str,
-    model: &str,
-) -> ApiResponseGoveeDeviceState {
-    let client = Client::new();
-    let params = [("device", device), ("model", model)];
-    let endpoint = format!("{}/v1/devices/state", govee_root_url);
-    let url = Url::parse_with_params(&endpoint, &params).unwrap();
-    let response = client
-        .get(url)
-        .header("Govee-API-Key", govee_api_key)
-        .send()
-        .await
-        .unwrap()
-        .json::<ApiResponseGoveeDeviceState>();
-    let response_json: ApiResponseGoveeDeviceState = response.await.unwrap();
-    response_json
+impl GoveeClient {
+    pub async fn get_device_state(&self, device: &str, model: &str) -> ApiResponseGoveeDeviceState {
+        let client = Client::new();
+        let params = [("device", device), ("model", model)];
+        let endpoint = format!("{}/v1/devices/state", GOVEE_ROOT_URL);
+        let url = Url::parse_with_params(&endpoint, &params).unwrap();
+        let response = client
+            .get(url)
+            .header("Govee-API-Key", &self.govee_api_key)
+            .send()
+            .await
+            .unwrap()
+            .json::<ApiResponseGoveeDeviceState>();
+        let response_json: ApiResponseGoveeDeviceState = response.await.unwrap();
+        response_json
+    }
 }
