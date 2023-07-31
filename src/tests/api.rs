@@ -11,7 +11,7 @@ mod tests {
         let mut server = mockito::Server::new();
         let govee_api_key = "1234567890";
         let mock_endpoint = server
-            .mock("put", format!("{}/v1/devices/control", GOVEE_ROOT_URL))
+            .mock("put", "{}/v1/devices/control")
             .match_header("govee-api-key", govee_api_key)
             .with_status(200)
             .create();
