@@ -7,8 +7,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeDeviceState {
-    code: i16,
-    message: String,
+    pub code: i16,
+    pub message: String,
     pub data: Option<GoveeDataDeviceStatus>,
 }
 
