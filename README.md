@@ -2,7 +2,7 @@
 
 A blazingly fast thin wrapper around the public Govee API written in Rust 🚀.
 
-THIS IS PRE ALPHA VERSION!
+THIS IS A PRE ALPHA VERSION!
 
 | is supported | endpoint                          | method              |
 | ------------ | --------------------------------- | ------------------- |
@@ -14,7 +14,7 @@ THIS IS PRE ALPHA VERSION!
 
 # Usage
 
-It is dead simple to use the govee-api library.
+It is dead simple to use the `govee-api` library.
 
 ```rust
 // make sure to run this inside an async function
@@ -25,3 +25,5 @@ let govee_client = GoveeClient::new(&GOVEE_API_KEY);
 let response: ApiResponseGoveeDevices = govee_client.get_devices().await;
 let devices = response.data.unwrap();
 ```
+
+See this [repo](https://github.com/mgierada/rust_that_light) for an inspiration how to use `govee-api` in various scenarios.
