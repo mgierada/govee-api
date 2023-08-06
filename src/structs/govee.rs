@@ -46,14 +46,14 @@ pub struct Color {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeDevices {
-    code: i16,
+    code: Option<i16>,
     message: String,
     pub data: Option<GoveeData>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeAppliances {
-    code: i16,
+    code: Option<i16>,
     message: String,
     pub data: Option<GoveeData>,
 }
