@@ -14,8 +14,8 @@ pub struct GoveeClient {
 impl GoveeClient {
     pub fn new(api_key: &str) -> GoveeClient {
         GoveeClient {
-            govee_root_url: GOVEE_ROOT_URL.to_string(),
             govee_api_key: api_key.to_string(),
+            govee_root_url: GOVEE_ROOT_URL.to_string(),
         }
     }
 }

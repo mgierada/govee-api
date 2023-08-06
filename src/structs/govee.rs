@@ -7,8 +7,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeDeviceState {
-    code: i16,
-    message: String,
+    pub code: i16,
+    pub message: String,
     pub data: Option<GoveeDataDeviceStatus>,
 }
 
@@ -46,14 +46,14 @@ pub struct Color {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeDevices {
-    code: i16,
+    code: Option<i16>,
     message: String,
     pub data: Option<GoveeData>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ApiResponseGoveeAppliances {
-    code: i16,
+    code: Option<i16>,
     message: String,
     pub data: Option<GoveeData>,
 }
