@@ -17,8 +17,6 @@ impl GoveeClient {
         let client = Client::new();
         let payload_json = json!(payload);
         let endpoint = format!("{}/v1/devices/control", &self.govee_root_url);
-        println!("endpoint: {}", endpoint);
-        println!("api_key: {}", &self.govee_api_key.to_string());
         let _response = client
             .put(endpoint)
             .header("Govee-API-Key", &self.govee_api_key.to_string())
@@ -48,7 +46,6 @@ impl GoveeClient {
     pub async fn get_devices(&self) -> ApiResponseGoveeDevices {
         let client = Client::new();
         let endpoint = format!("{}/v1/devices", GOVEE_ROOT_URL);
-        println!("endpoint: {}", endpoint);
         let response = client
             .get(endpoint)
             .header("Govee-API-Key", &self.govee_api_key)
