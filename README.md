@@ -16,7 +16,7 @@ All REST methods of the official public Govee API are supported. See the table b
 
 To use the library you need to obtain Govee Developer API key and set it to `GOVEE_API_KEY` env variable. It is highly suggested to use .env file.
 
-See below a short manual copied directly from the (Govee API documentation)[https://app-h5.govee.com/share/community?client=0&postId=124855]. Please refer to that documentation in case the info below is not sufficient or it changed over time.
+See below a short manual copied directly from the [Govee API documentation](https://app-h5.govee.com/share/community?client=0&postId=124855). Please refer to that documentation in case the info below is not sufficient or it changed over time.
 
 📋 Steps to obtain a Govee Developer API Key
 
