@@ -5,13 +5,26 @@ pub mod utils;
 
 pub const GOVEE_ROOT_URL: &str = "https://developer-api.govee.com";
 
-#[derive(Debug)]
+/// A client for interacting with Govee devices through their API.
+///
+/// This struct provides methods to control Govee devices using the Govee API.
+/// It requires a valid Govee API key and root URL to initialize.
 pub struct GoveeClient {
-    pub govee_root_url: String,
-    pub govee_api_key: String,
+    govee_api_key: String,  // The API key for authenticating requests.
+    govee_root_url: String, // The root URL of the Govee API.
 }
 
 impl GoveeClient {
+    /// Creates a new instance of the GoveeClient with the specified API key and root URL.
+    ///
+    /// # Arguments
+    ///
+    /// * `govee_api_key` - A valid Govee API key for authentication.
+    /// * `govee_root_url` - The root URL of the Govee API.
+    ///
+    /// # Returns
+    ///
+    /// A new GoveeClient instance.
     pub fn new(api_key: &str) -> GoveeClient {
         GoveeClient {
             govee_api_key: api_key.to_string(),
