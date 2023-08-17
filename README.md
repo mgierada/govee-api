@@ -2,7 +2,7 @@
 
 A blazingly fast thin wrapper around the public Govee API written in Rust 🚀.
 
-THIS IS A PRE ALPHA VERSION!
+All REST methods of the official public Govee API are supported. See the table below for mapping of methods to endpoints.
 
 | is supported | endpoint                          | method              |
 | ------------ | --------------------------------- | ------------------- |
@@ -11,6 +11,25 @@ THIS IS A PRE ALPHA VERSION!
 | yes          | GET /v1/devices                   | `get_devices`       |
 | yes          | PUT /v1/devices/control           | `control_device`    |
 | yes          | GET /v1/devices/state             | `get_device_state`  |
+
+# Prerequisite
+
+To use the library you need to obtain Govee Developer API key and set it to `GOVEE_API_KEY` env variable. It is highly suggested to use .env file.
+
+See below a short manual copied directly from the (Govee API documentation)[https://app-h5.govee.com/share/community?client=0&postId=124855]. Please refer to that documentation in case the info below is not sufficient or it changed over time.
+
+📋 Steps to obtain a Govee Developer API Key
+
+1. Download the Govee Home App
+   - iOS: https://apps.apple.com/us/app/govee-home/id1395696823
+   - Android: https://play.google.com/store/apps/details?id=com.govee.home
+2. Navigate to the My Profile page by clicking on the 👤 icon
+3. Click on the ⚙️ icon on the top right corner to get to Settings
+4. Click on “Apply for API Key”
+5. Fill in the required fields for “Name” and “Reason for application”
+   - Possible reasons can include: home automation, 3rd party integration, API Days Tutorial (education & research)
+6. Read the Govee Developer API Terms of Service, then click the checkbox to accept
+7. Click Submit
 
 # Usage
 
