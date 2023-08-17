@@ -14,7 +14,7 @@ All REST methods of the official public Govee API are supported. See the table b
 
 # Prerequisite
 
-To use the library you need to obtain Govee Developer API key and set it to `GOVEE_API_KEY` env variable. It is highly suggested to use .env file.
+To use the library you need to obtain a Govee Developer API key and set it to `GOVEE_API_KEY` env variable. It is highly suggested to use .env file.
 
 See below a short manual copied directly from the [Govee API documentation](https://app-h5.govee.com/share/community?client=0&postId=124855). Please refer to that documentation in case the info below is not sufficient or it changed over time.
 
@@ -37,7 +37,7 @@ It is dead simple to use the `govee-api` library.
 
 ```rust
 // make sure to run this inside an async function
-const GOVEE_API_KEY: &str = "GOVEE_API_KEY";
+const GOVEE_API_KEY: &str = "GOVEE_API_KEY"; // for the sake of security, please make sure this is read from env variable.
 let govee_client = GoveeClient::new(&GOVEE_API_KEY);
 // use any of the supported method from the table above
 // example for get_devices()
