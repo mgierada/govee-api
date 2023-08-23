@@ -14,7 +14,8 @@ mod tests {
     async fn test_control_device() {
         // Arrange
         let mut server = mockito::Server::new();
-        let _mock = server.mock("PUT", "/v1/devices/control")
+        let _mock = server
+            .mock("PUT", "/v1/devices/control")
             .match_header("Govee-API-Key", MOCK_API_KEY)
             .with_status(200)
             .create();
@@ -32,12 +33,16 @@ mod tests {
         };
 
         // Act
-        test_client.control_device(payload).await;
+        let results = test_client.control_device(payload).await;
 
+        // Handle the result appropriately
+        if let Err(err) = results {
+            panic!("Error occurred: {:?}", err);
+        }
         // Assert that the mock expectations were satisfied
         // mock.assert();
     }
-
+    
     #[tokio::test]
     async fn test_control_appliance() {
         let mut server = mockito::Server::new();
