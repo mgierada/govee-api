@@ -60,17 +60,21 @@ impl GoveeClient {
 ///
 /// This method will panic if the PUT request encounters an error.
 impl GoveeClient {
-    pub async fn control_appliance(&self, payload: PayloadBody) -> () {
+    pub async fn control_appliance(&self, payload: PayloadBody) -> Result<(), ReqwestError> {
         let client = Client::new();
         let payload_json = json!(payload);
         let endpoint = format!("{}/v1/appliance/devices/control", GOVEE_ROOT_URL);
-        let _response = client
+        let result = client
             .put(endpoint)
             .header("Govee-API-Key", &self.govee_api_key)
             .json(&payload_json)
             .send()
-            .await
-            .unwrap();
+            .await;
+        match result {
+            Ok(res) => res,
+            Err(err) => return Err(err),
+        };
+        Ok(())
     }
 }
 
