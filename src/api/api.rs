@@ -147,7 +147,7 @@ impl GoveeClient {
 ///
 /// This method will panic if the GET request encounters an error.
 impl GoveeClient {
-    pub async fn get_device_state(&self, device: &str, model: &str) -> ApiResponseGoveeDeviceState {
+    pub async fn get_device_state(&self, device: &str, model: &str) -> Result<ApiResponseGoveeDeviceState,ReqwestError> {
         let client = Client::new();
         let params = [("device", device), ("model", model)];
         let endpoint = format!("{}/v1/devices/state", GOVEE_ROOT_URL);
@@ -156,10 +156,8 @@ impl GoveeClient {
             .get(url)
             .header("Govee-API-Key", &self.govee_api_key)
             .send()
-            .await
-            .unwrap()
-            .json::<ApiResponseGoveeDeviceState>();
-        let response_json: ApiResponseGoveeDeviceState = response.await.unwrap();
-        response_json
+            .await?;
+        let response_json = response.json::<ApiResponseGoveeDeviceState>().await.unwrap();
+        Ok(response_json)
     }
 }
