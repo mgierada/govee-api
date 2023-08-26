@@ -14,7 +14,8 @@ mod tests {
     async fn test_control_device() {
         // Arrange
         let mut server = mockito::Server::new();
-        let _mock = server.mock("PUT", "/v1/devices/control")
+        let _mock = server
+            .mock("PUT", "/v1/devices/control")
             .match_header("Govee-API-Key", MOCK_API_KEY)
             .with_status(200)
             .create();
@@ -31,9 +32,12 @@ mod tests {
             cmd: command,
         };
 
-        // Act
-        test_client.control_device(payload).await;
+        let results = test_client.control_device(payload).await;
 
+        // Handle the result appropriately
+        if let Err(err) = results {
+            panic!("Error occurred: {:?}", err);
+        }
         // Assert that the mock expectations were satisfied
         // mock.assert();
     }
@@ -58,7 +62,11 @@ mod tests {
         };
         // Create the GoveeClient instance
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.control_appliance(payload).await;
+        let results = govee_client.control_appliance(payload).await;
+        // Handle the result appropriately
+        if let Err(err) = results {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 
@@ -101,7 +109,11 @@ mod tests {
             )
             .create();
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.get_devices().await;
+        let result = govee_client.get_devices().await;
+        // Handle the result appropriately
+        if let Err(err) = result {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 
@@ -156,7 +168,11 @@ mod tests {
             )
             .create();
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.get_appliances().await;
+        let result = govee_client.get_appliances().await;
+        // Handle the result appropriately
+        if let Err(err) = result {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 }
