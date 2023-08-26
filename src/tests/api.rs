@@ -32,7 +32,6 @@ mod tests {
             cmd: command,
         };
 
-        // Act
         let results = test_client.control_device(payload).await;
 
         // Handle the result appropriately
@@ -42,7 +41,7 @@ mod tests {
         // Assert that the mock expectations were satisfied
         // mock.assert();
     }
-    
+
     #[tokio::test]
     async fn test_control_appliance() {
         let mut server = mockito::Server::new();
@@ -63,7 +62,11 @@ mod tests {
         };
         // Create the GoveeClient instance
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.control_appliance(payload).await;
+        let results = govee_client.control_appliance(payload).await;
+        // Handle the result appropriately
+        if let Err(err) = results {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 
@@ -106,7 +109,11 @@ mod tests {
             )
             .create();
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.get_devices().await;
+        let result = govee_client.get_devices().await;
+        // Handle the result appropriately
+        if let Err(err) = result {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 
@@ -161,7 +168,11 @@ mod tests {
             )
             .create();
         let govee_client = GoveeClient::new(govee_api_key);
-        govee_client.get_appliances().await;
+        let result = govee_client.get_appliances().await;
+        // Handle the result appropriately
+        if let Err(err) = result {
+            panic!("Error occurred: {:?}", err);
+        }
         // mock_endpoint.assert();
     }
 }
