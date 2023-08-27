@@ -15,19 +15,17 @@ use crate::{
 // ------------------------
 //
 
-/// Controls a Govee device using the provided payload.
+/// Control a Govee device using the provided payload.
 ///
-/// This method sends a PUT request to the Govee API to control a device
-/// with the specified payload. The payload should be in the form of a PayloadBody struct.
+/// This method sends a PUT request to the Govee API's control endpoint in order to control a Govee device.
 ///
 /// # Arguments
 ///
-/// * `payload` - The payload containing the control instructions for the device.
+/// * `payload` - The payload containing control instructions for the device.
 ///
-/// # Panics
+/// # Returns
 ///
-/// This method will panic if the PUT request encounters an error.
-
+/// Returns `Ok(())` if the request is successful. Otherwise, returns a `ReqwestError` indicating the failure
 impl GoveeClient {
     pub async fn control_device(&self, payload: PayloadBody) -> Result<(), ReqwestError> {
         let client = Client::new();
@@ -56,9 +54,9 @@ impl GoveeClient {
 ///
 /// * `payload` - The payload containing the control instructions for the appliance.
 ///
-/// # Panics
+/// # Returns
 ///
-/// This method will panic if the PUT request encounters an error.
+/// Returns `Ok(())` if the request is successful. Otherwise, returns a `ReqwestError` indicating the failure
 impl GoveeClient {
     pub async fn control_appliance(&self, payload: PayloadBody) -> Result<(), ReqwestError> {
         let client = Client::new();
@@ -87,9 +85,9 @@ impl GoveeClient {
 ///
 /// An `ApiResponseGoveeDevices` containing information about the devices.
 ///
-/// # Panics
+/// # Returns
 ///
-/// This method will panic if the GET request encounters an error.
+/// Returns `Ok(())` if the request is successful. Otherwise, returns a `ReqwestError` indicating the failure
 impl GoveeClient {
     pub async fn get_devices(&self) -> Result<ApiResponseGoveeDevices, ReqwestError> {
         let client = Client::new();
@@ -113,9 +111,9 @@ impl GoveeClient {
 ///
 /// An `ApiResponseGoveeAppliances` containing information about the appliances.
 ///
-/// # Panics
+/// # Returns
 ///
-/// This method will panic if the GET request encounters an error.
+/// Returns `Ok(())` if the request is successful. Otherwise, returns a `ReqwestError` indicating the failure
 impl GoveeClient {
     pub async fn get_appliances(&self) -> Result<ApiResponseGoveeAppliances, ReqwestError> {
         let client = Client::new();
@@ -143,9 +141,9 @@ impl GoveeClient {
 ///
 /// An `ApiResponseGoveeDeviceState` containing the current state of the device.
 ///
-/// # Panics
+/// # Returns
 ///
-/// This method will panic if the GET request encounters an error.
+/// Returns `Ok(())` if the request is successful. Otherwise, returns a `ReqwestError` indicating the failure
 impl GoveeClient {
     pub async fn get_device_state(
         &self,
