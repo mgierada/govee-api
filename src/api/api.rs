@@ -2,6 +2,7 @@ use reqwest::Error as ReqwestError;
 use reqwest::{Client, Url};
 use serde_json::json;
 use std::error::Error;
+use std::fmt;
 use tokio::sync::mpsc;
 
 use crate::{
@@ -47,20 +48,39 @@ impl GoveeClient {
     }
 }
 
+#[derive(Debug)]
+pub struct GoveeClientError {
+    errors: Vec<ReqwestError>,
+}
+
+impl GoveeClientError {
+    fn new(errors: Vec<ReqwestError>) -> Self {
+        GoveeClientError { errors }
+    }
+}
+
+impl fmt::Display for GoveeClientError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "GoveeClientError: {} errors", self.errors.len())
+    }
+}
+
+impl Error for GoveeClientError {}
+
 impl GoveeClient {
     pub async fn bulk_control_device(
         &self,
         payloads: Vec<PayloadBody>,
-    ) -> Result<(), Box<dyn Error>> {
-        let (tx, rx) = mpsc::channel(32); // Adjust the channel capacity as needed
+    ) -> Result<(), GoveeClientError> {
+        let (tx, mut rx) = mpsc::channel(32); // Adjust the channel capacity as needed
         let client = Client::new();
 
-        for payload in payloads {
+        for payload in &payloads {
             let self_clone = self.clone();
             let tx_clone = tx.clone();
 
             tokio::spawn(async move {
-                match self_clone.control_device(payload).await {
+                match self_clone.control_device(payload.clone()).await {
                     Ok(_) => {
                         // Send a message to the receiver indicating success
                         if tx_clone.send(Ok(())).await.is_err() {
@@ -89,7 +109,7 @@ impl GoveeClient {
         if errors.is_empty() {
             Ok(())
         } else {
-            Err(Box::new(errors))
+            Err(GoveeClientError::new(errors))
         }
     }
 }
