@@ -3,6 +3,7 @@ use reqwest::{Client, Url};
 use serde_json::json;
 use std::error::Error;
 use std::fmt;
+use std::sync::Arc;
 use tokio::sync::mpsc;
 
 use crate::{
@@ -67,20 +68,31 @@ impl fmt::Display for GoveeClientError {
 
 impl Error for GoveeClientError {}
 
+// #[derive(IntoIterator)]
+// pub struct BulkPayloadBody {
+//     pub payloads: Vec<PayloadBody>,
+// }
+
 impl GoveeClient {
-    pub async fn bulk_control_device(
+pub async fn bulk_control_device(
         &self,
         payloads: Vec<PayloadBody>,
     ) -> Result<(), GoveeClientError> {
         let (tx, mut rx) = mpsc::channel(32); // Adjust the channel capacity as needed
         let client = Client::new();
+        
+        // Create an Arc containing the payloads
+        let payloads_arc = Arc::new(payloads);
+        let self_arc = Arc::new(self.clone());
 
-        for payload in &payloads {
-            let self_clone = self.clone();
+        for payload in payloads_arc.iter() {
+            let self_clone = Arc::clone(&self_arc);
             let tx_clone = tx.clone();
 
+            let payload_clone = payload.clone(); // Clone the individual payload
+
             tokio::spawn(async move {
-                match self_clone.control_device(payload.clone()).await {
+                match self_clone.control_device(payload_clone).await {
                     Ok(_) => {
                         // Send a message to the receiver indicating success
                         if tx_clone.send(Ok(())).await.is_err() {
@@ -99,7 +111,7 @@ impl GoveeClient {
 
         // Collect and handle results
         let mut errors = vec![];
-        for _ in 0..payloads.len() {
+        for _ in 0..payloads_arc.len() {
             match rx.recv().await.unwrap() {
                 Ok(_) => {}
                 Err(err) => errors.push(err),
