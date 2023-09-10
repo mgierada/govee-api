@@ -1,6 +1,8 @@
 use reqwest::Error as ReqwestError;
 use reqwest::{Client, Url};
 use serde_json::json;
+use std::error::Error;
+use tokio::sync::mpsc;
 
 use crate::{
     structs::govee::{
@@ -42,6 +44,53 @@ impl GoveeClient {
             Err(err) => return Err(err),
         };
         Ok(())
+    }
+}
+
+impl GoveeClient {
+    pub async fn bulk_control_device(
+        &self,
+        payloads: Vec<PayloadBody>,
+    ) -> Result<(), Box<dyn Error>> {
+        let (tx, rx) = mpsc::channel(32); // Adjust the channel capacity as needed
+        let client = Client::new();
+
+        for payload in payloads {
+            let self_clone = self.clone();
+            let tx_clone = tx.clone();
+
+            tokio::spawn(async move {
+                match self_clone.control_device(payload).await {
+                    Ok(_) => {
+                        // Send a message to the receiver indicating success
+                        if tx_clone.send(Ok(())).await.is_err() {
+                            eprintln!("Failed to send result to the receiver");
+                        }
+                    }
+                    Err(err) => {
+                        // Send an error message to the receiver
+                        if tx_clone.send(Err(err)).await.is_err() {
+                            eprintln!("Failed to send result to the receiver");
+                        }
+                    }
+                }
+            });
+        }
+
+        // Collect and handle results
+        let mut errors = vec![];
+        for _ in 0..payloads.len() {
+            match rx.recv().await.unwrap() {
+                Ok(_) => {}
+                Err(err) => errors.push(err),
+            }
+        }
+
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(Box::new(errors))
+        }
     }
 }
 
