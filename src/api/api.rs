@@ -56,7 +56,7 @@ impl GoveeClient {
             .iter()
             .map(|payload| {
                 let payload_json = json!(payload);
-                let endpoint= endpoint.clone();
+                let endpoint = endpoint.clone();
                 let govee_api_key = self.govee_api_key.to_string();
                 let client = client.clone();
 
@@ -73,14 +73,8 @@ impl GoveeClient {
         let results = futures::future::join_all(requests).await;
         for result in results {
             match result {
-                Ok(res) => {
-                    // Process the response if needed
-                    println!("Response: {:?}", res);
-                }
-                Err(err) => {
-                    // Handle the error
-                    eprintln!("Error: {:?}", err);
-                }
+                Ok(_) => (),
+                Err(err) => return Err(err),
             }
         }
         Ok(())
