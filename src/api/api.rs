@@ -1,8 +1,6 @@
 use reqwest::Error as ReqwestError;
 use reqwest::{Client, Url};
 use serde_json::json;
-// use std::error::Error;
-// use std::fmt;
 
 use crate::{
     structs::govee::{
@@ -47,25 +45,6 @@ impl GoveeClient {
     }
 }
 
-// #[derive(Debug)]
-// pub struct GoveeClientError {
-//     errors: Vec<ReqwestError>,
-// }
-
-// impl GoveeClientError {
-//     fn new(errors: Vec<ReqwestError>) -> Self {
-//         GoveeClientError { errors }
-//     }
-// }
-
-// impl fmt::Display for GoveeClientError {
-//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-//         write!(f, "GoveeClientError: {} errors", self.errors.len())
-//     }
-// }
-//
-// impl Error for GoveeClientError {}
-
 impl GoveeClient {
     pub async fn bulk_control_devices(
         &self,
@@ -73,7 +52,6 @@ impl GoveeClient {
     ) -> Result<(), ReqwestError> {
         let client = Client::new();
         let endpoint = format!("{}/v1/devices/control", &self.govee_root_url);
-
         let requests = payloads
             .iter()
             .map(|payload| {
@@ -92,9 +70,7 @@ impl GoveeClient {
                 }
             })
             .collect::<Vec<_>>();
-
         let results = futures::future::join_all(requests).await;
-
         for result in results {
             match result {
                 Ok(res) => {
@@ -107,70 +83,9 @@ impl GoveeClient {
                 }
             }
         }
-
         Ok(())
     }
 }
-
-// #[derive(IntoIterator)]
-// pub struct BulkPayloadBody {
-//     pub payloads: Vec<PayloadBody>,
-// }
-
-// impl GoveeClient {
-//     pub async fn bulk_control_device(
-//         &self,
-//         payloads: Vec<PayloadBody>,
-//     ) -> Result<(), GoveeClientError> {
-//         let (tx, mut rx) = mpsc::channel(32); // Adjust the channel capacity as needed
-//         let client = Client::new();
-//
-//         // Create an Arc containing the payloads
-//         let payloads_arc = Arc::new(payloads);
-//         // let self_arc = Arc::new(self.clone());
-//         let self_clone = self.clone();
-//
-//         for payload in payloads_arc.iter() {
-//             // let self_clone = Arc::clone(&self_clone); // Clone self for each iteration
-//             let tx_clone = tx.clone();
-//
-//             let payload_clone = payload.clone(); // Clone the individual payload
-//
-//             tokio::spawn(async move {
-//                 // match self_clone.control_device(payload_clone).await {
-//                 match self_clone.control_device(payload_clone).await {
-//                     Ok(_) => {
-//                         // Send a message to the receiver indicating success
-//                         if tx_clone.send(Ok(())).await.is_err() {
-//                             eprintln!("Failed to send result to the receiver");
-//                         }
-//                     }
-//                     Err(err) => {
-//                         // Send an error message to the receiver
-//                         if tx_clone.send(Err(err)).await.is_err() {
-//                             eprintln!("Failed to send result to the receiver");
-//                         }
-//                     }
-//                 }
-//             });
-//         }
-//
-//         // Collect and handle results
-//         let mut errors = vec![];
-//         for _ in 0..payloads_arc.len() {
-//             match rx.recv().await.unwrap() {
-//                 Ok(_) => {}
-//                 Err(err) => errors.push(err),
-//             }
-//         }
-//
-//         if errors.is_empty() {
-//             Ok(())
-//         } else {
-//             Err(GoveeClientError::new(errors))
-//         }
-//     }
-// }
 
 /// Controls a Govee appliance using the provided payload.
 ///
