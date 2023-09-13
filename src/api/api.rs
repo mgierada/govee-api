@@ -45,6 +45,66 @@ impl GoveeClient {
     }
 }
 
+/// Asynchronously controls multiple devices by sending payloads to the Govee API.
+///
+/// This method takes a vector of `PayloadBody` objects and sends control requests to the Govee API
+/// for each payload asynchronously. It uses the provided `self.govee_api_key` and `self.govee_root_url`
+/// to construct the API endpoint for each request.
+///
+/// # Arguments
+///
+/// - `payloads`: A vector of `PayloadBody` objects representing the control payloads for the devices.
+///
+/// # Returns
+///
+/// Returns a `Result` indicating success or an error that occurred during the requests.
+///
+/// # Examples
+///
+/// ```rust
+/// let govee_client = GoveeClient::new("your_api_key", "https://api.govee.com");
+/// let payloads = vec![payload1, payload2];
+/// let result = govee_client.bulk_control_devices(payloads).await;
+/// match result {
+///     Ok(_) => println!("Devices controlled successfully"),
+///     Err(err) => eprintln!("Error controlling devices: {:?}", err),
+/// }
+/// `
+impl GoveeClient {
+    pub async fn bulk_control_devices(
+        &self,
+        payloads: Vec<PayloadBody>,
+    ) -> Result<(), ReqwestError> {
+        let client = Client::new();
+        let endpoint = format!("{}/v1/devices/control", &self.govee_root_url);
+        let requests = payloads
+            .iter()
+            .map(|payload| {
+                let payload_json = json!(payload);
+                let endpoint = endpoint.clone();
+                let govee_api_key = self.govee_api_key.to_string();
+                let client = client.clone();
+                async move {
+                    client
+                        .put(&endpoint)
+                        .header("Govee-API-Key", &govee_api_key)
+                        .json(&payload_json)
+                        .send()
+                        .await
+                }
+            })
+            .collect::<Vec<_>>();
+        let results = futures::future::join_all(requests).await;
+        for result in results {
+            match result {
+                Ok(_) => (),
+                Err(err) => return Err(err),
+            }
+        }
+        Ok(())
+    }
+}
+
 /// Controls a Govee appliance using the provided payload.
 ///
 /// This method sends a PUT request to the Govee API to control an appliance
