@@ -92,14 +92,14 @@ pub struct ColorTemRange {
     pub max: i16,
 }
 
-#[derive(Serialize, Clone)]
+#[derive(Serialize)]
 pub struct PayloadBody {
     pub device: String,
     pub model: String,
     pub cmd: GoveeCommand,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct GoveeCommand {
     pub name: String,
     pub value: String,
