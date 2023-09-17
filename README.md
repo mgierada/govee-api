@@ -46,3 +46,13 @@ let devices = response.data.unwrap();
 ```
 
 See this [repo](https://github.com/mgierada/rust_that_light) for an inspiration how to use `govee-api` in various scenarios.
+
+# Breaking changes and versioning
+
+I decided to go with the semantic versioning with the following understanding:
+
+- every `patch` release should not break the existing functionality. It is usually dependencies or readme update, some minor refactor or other things that are usually safe to be pulled anytime.
+- every `minor` release may break parts of the app using `govee-api`. Minor release often includes new functionality or some relevant refactor with a limited scope that improves the library performance.
+- every `major` release will very likely break large parts of the app that implements `govee-api` crate. This includes changes in GoveeAPI itself or some significant changes in the crate architecture.
+
+Usually, the latest published version is strongly suggested for all users.
