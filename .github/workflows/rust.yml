@@ -19,6 +19,5 @@ jobs:
         with:
           toolchain: nightly
           override: true
-      - uses: actions/checkout@v3
       - name: Build
         run: cargo build --verbose
