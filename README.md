@@ -16,7 +16,6 @@
 
 ![License](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Beta-informational?style=flat-square)
-![Neovim](https://img.shields.io/badge/Neovim-0.9+-green.svg?style=flat-square&logo=Neovim&logoColor=white)
 
 ![logo](./logo.jpg)
 
