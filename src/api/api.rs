@@ -61,7 +61,6 @@ impl GoveeClient {
 ///
 /// # Examples
 ///
-/// ```rust
 /// let govee_client = GoveeClient::new("your_api_key", "https://api.govee.com");
 /// let payloads = vec![payload1, payload2];
 /// let result = govee_client.bulk_control_devices(payloads).await;
@@ -69,7 +68,7 @@ impl GoveeClient {
 ///     Ok(_) => println!("Devices controlled successfully"),
 ///     Err(err) => eprintln!("Error controlling devices: {:?}", err),
 /// }
-/// `
+///
 impl GoveeClient {
     pub async fn bulk_control_devices(
         &self,
